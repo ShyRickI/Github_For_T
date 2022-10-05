@@ -11,7 +11,10 @@ bot = telebot.TeleBot('5570068886:AAFYxm-BItCqTKmY9rYjlYS9npP46pK_sWA')
 def start(message):
     bass = f'Приветствую, {message.from_user.first_name}'
     bot.send_message(message.chat.id, bass, parse_mode='html')
-
+@bot.messange_handler()
+def.get_user_text(message):
+    photo = open('')
+    bot.send_photo(message.chat.id, )
 
 
 bot.polling(none_stop=True)
