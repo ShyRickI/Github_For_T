@@ -1,0 +1,55 @@
+from pygame import *
+from random import *
+from copy import *
+
+clock = time.Clock()
+FPS = 60
+RES = WIDTH, HEIGHT = 1500, 900
+size = 5
+W, H = WIDTH // size, HEIGHT // size
+screen = display.set_mode(RES)
+
+next_stage_matrix = [[0 for i in range(W)] for j in range(H)]
+matrix = [[randint(0, 1) for i in range(W)] for j in range(H)]
+
+
+def paint_block(field, pos):
+    x, y = pos
+    neighbors = 0
+    for yS in range(y-1, y+2):
+        for xS in range(x-1, x+2):
+            if field[yS][xS] == 1:
+                neighbors += 1
+
+    if field[y][x]:
+        neighbors -= 1
+        if neighbors == 2 or neighbors == 3:
+            return 1
+        else:
+            return 0
+    else:
+        if neighbors == 3:
+            return 1
+        else:
+            return 0
+
+
+game = True
+while game:
+    screen.fill(Color('black'))
+    for e in event.get():
+        if e.type == QUIT:
+            game = False
+    [draw.line(screen, Color('darkslategray'), (x, 0), (x, HEIGHT)) for x in range(0, WIDTH, size)]
+    [draw.line(screen, Color('darkslategray'), (0, y), (WIDTH, y)) for y in range(0, HEIGHT, size)]
+
+    for x_matrix in range(1, W - 1):
+        for y_matrix in range(1, H - 1):
+            if matrix[y_matrix][x_matrix] == 1:
+                draw.rect(screen, 'white', (x_matrix * size + 2, y_matrix * size + 2, size - 2, size - 2))
+            next_stage_matrix[y_matrix][x_matrix] = paint_block(matrix, (x_matrix, y_matrix))
+
+    matrix = deepcopy(next_stage_matrix)
+
+    display.flip()
+    clock.tick(FPS)
