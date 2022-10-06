@@ -1,0 +1,27 @@
+
+import telebot
+from telebot import types # для указание типов
+import config
+import requests
+import random
+
+bot = telebot.TeleBot('5570068886:AAFYxm-BItCqTKmY9rYjlYS9npP46pK_sWA')
+
+
+@bot.message_handler(content_types=['text'])
+def random_number(message):
+    command = message.text.split(" ")
+    command_len = len(command)
+    try:
+        if command_len == 1:
+            bot.reply_to(message, random.randint(1,100))
+        elif command_len == 2:
+            bot.reply_to(message, random.randint(1, int(command[1])))
+        elif command_len == 3:
+            bot.reply_to(message, random.randint(int(command[1]), int(command[2])))
+        else:
+            bot.reply_to(message, "Максимальна кількість параметрів - 2.")
+    except Exception:
+        bot.reply_to(message, "Щось пішло не так, спробуйте знову.")
+
+bot.polling(none_stop=True)
