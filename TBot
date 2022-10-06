@@ -12,19 +12,28 @@ bot = telebot.TeleBot('5570068886:AAFYxm-BItCqTKmY9rYjlYS9npP46pK_sWA')
 
 
 @bot.message_handler(commands=['start'])
-def start(message):
-    markup = ReplyKeyboardMarkup(True, False)
-    markup.row('Получить котика')
-    bot.send_message(message.chat.id, 'Привет! Нажми кнопку ниже.', reply_markup=markup)
+def welcome(message):
 
 
-@bot.message_handler(regexp='Получить котика')
-def cat(message):
-    response = requests.get(url)
-    data = response.json()
-    cat = data[0]['url']
+    # keyboard
+    markup = type.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = type.KeyboardButton("Котик")
+    item2 = type.KeyboardButton("Собака")
 
-    bot.send_photo(message.chat.id, cat)
+    markup.add(item1, item2)
+
+    bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть подопытным кроликом.".format(message.from_user, bot.get_me()),
+        parse_mode='html', reply_markup=markup)
+
+
+@bot.message_handler(content_types=['text'])
+def hahaha(message):
+    if message.text == 'Котик':
+        bot.send_message(message.chat.id, "Прости, сейчас не могу но скору скину")
+
+
+
+
 
 
 bot.polling(none_stop=True)

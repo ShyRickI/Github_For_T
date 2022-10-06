@@ -1,0 +1,40 @@
+
+
+
+
+import telebot
+from telebot import types # для указание типов
+import config
+import requests
+
+url = 'https://api.thecatapi.com/v1/images/search?mime_type=jpg'
+url2 = 'https://api.thecatapi.com/v1/images/search?mime_type=jpg'
+
+bot = telebot.TeleBot('5570068886:AAFYxm-BItCqTKmY9rYjlYS9npP46pK_sWA')
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("Кот")
+    btn2 = types.KeyboardButton("Собака")
+    markup.add(btn1, btn2)
+    bot.send_message(message.chat.id, text="Привет, {0.first_name}! Я бот для поднятия настроения".format(message.from_user), reply_markup=markup)
+response = requests.get(url)
+@bot.message_handler(content_types=['text'])
+def func(message):
+    if(message.text == "Кот"):
+
+
+        data = response.json()
+        cat = data[0]['url']
+
+        bot.send_photo(message.chat.id, cat)
+
+    elif(message.text == "Собака"):
+
+        data2 = response.json()
+        dog = data2[0]['url']
+
+        bot.send_photo(message.chat.id, dog)
+
+bot.polling(none_stop=True)
