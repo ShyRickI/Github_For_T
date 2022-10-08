@@ -48,7 +48,7 @@ def start(message):
 
     markup.add(btn1, btn2, btn3, btn4, btn5)
 
-    bot.send_message(message.chat.id, text="Привет, {0.first_name}! Я бот для поднятия настроения".format(message.from_user), reply_markup=markup)
+    bot.send_message(message.chat.id, text="Привет. Я бот для поднятия настроения".format(message.from_user), reply_markup=markup)
 
 
 @bot.message_handler(content_types=['text'])
