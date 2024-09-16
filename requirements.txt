@@ -1,0 +1,4 @@
+pygame
+pyTelegramBotAPI
+telebot
+Requests
